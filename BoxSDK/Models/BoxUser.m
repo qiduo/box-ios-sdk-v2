@@ -161,14 +161,20 @@
                                        nullAllowed:NO];
 }
 
-- (NSURL *)avatarUrl
+- (NSURL *)avatarURL
 {
-    NSString *avatarUrl = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyStatus
+    NSString *avatarURLStr = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyStatus
                                                      inDictionary:self.rawResponseJSON
                                                   hasExpectedType:[NSString class]
                                                       nullAllowed:NO];
+    NSURL *avatarURL = nil;
     
-    return [NSURL URLWithString:avatarUrl];
+    if (avatarURLStr != nil)
+    {
+        avatarURL = [NSURL URLWithString:avatarURLStr];
+    }
+    
+    return avatarURL;
 }
 
 - (NSNumber *)isExemptFromDeviceLimits
