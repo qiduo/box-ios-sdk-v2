@@ -39,6 +39,11 @@
 @property (nonatomic, readonly) NSString *role;
 
 /**
+ * The user's language.
+ */
+@property (nonatomic, readonly) NSString *language;
+
+/**
  * The user's space amount.
  */
 @property (nonatomic, readonly) NSNumber *spaceAmount;
@@ -91,7 +96,7 @@
 /**
  * The url to this user's avatar.
  */
-@property (nonatomic, readonly) NSURL *avatarUrl;
+@property (nonatomic, readonly) NSURL *avatarURL;
 
 /**
  * Whether this user is exempt from device limits.

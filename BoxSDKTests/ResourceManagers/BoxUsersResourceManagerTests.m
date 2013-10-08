@@ -130,6 +130,100 @@
     STAssertEquals(OAuth2Session, operation.OAuth2Session, @"operation should have the same OAuth2Session as the users manager");
 }
 
+#pragma mark - User Infos Tests
+
+- (void)testThatUserInfosReturnsOperationWithHTTPGETMethod
+{
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:nil failure:nil];
+    
+    STAssertEqualObjects(BoxAPIHTTPMethodGET, operation.APIRequest.HTTPMethod, @"user info should be a GET request");
+}
+
+// @see developers.box.com/docs/
+- (void)testThatUserInfosReturnsOperationWithDocumentedURL
+{
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:nil failure:nil];
+    
+    NSString *expectedURLString = [NSString stringWithFormat:@"%@/%@/%@", APIBaseURL, APIVersion, USERS_RESOURCE];
+    
+    STAssertEqualObjects(expectedURLString, operation.APIRequest.URL.absoluteString, @"user info URL should match docs");
+}
+
+- (void)testThatUserInfosIncludesQueryStringParametersFromRequestBuilder
+{
+    NSDictionary *const queryParametersDictionary = @{@"foo" : @"bar", @"boom" : @"baz"};
+    BoxUsersRequestBuilder *builder = [[BoxUsersRequestBuilder alloc] initWithQueryStringParameters:queryParametersDictionary];
+    BoxAPIJSONOperation *operation = [usersManager userInfos:builder success:nil failure:nil];
+    
+    STAssertEqualObjects(queryParametersDictionary, operation.APIRequest.URL.queryDictionary, @"query parameters from builder should be appended to the URL");
+}
+
+// GET request should have no body
+- (void)testThatUserInfosDoesNotIncludeBodyDictionaryFromRequestBuilder
+{
+    BoxUsersRequestBuilder *builder = [[BoxUsersRequestBuilder alloc] init];
+    builder.name = @"foobar";
+    BoxAPIJSONOperation *operation = [usersManager userInfos:builder success:nil failure:nil];
+    
+    STAssertNil(operation.APIRequest.HTTPBody, @"body parameters from builder should not be included with the request");
+}
+
+- (void)testThatUserInfosWrapsSuccessBlockInJSONSuccessBlockAndSetsItOnTheOperation
+{
+    __block BOOL blockCalled = NO;
+    BoxCollectionBlock successBlock = ^(BoxCollection *collection)
+    {
+        blockCalled = YES;
+    };
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:successBlock failure:nil];
+    
+    operation.success(nil, nil, nil);
+    
+    STAssertTrue(blockCalled, @"User block should be called when the operation's success block is called");
+}
+
+- (void)testThatUserInfosSuccessBlockIsPassedABoxCollection
+{
+    BoxCollectionBlock successBlock = ^(BoxCollection *collection)
+    {
+        STAssertTrue([collection isMemberOfClass:[BoxCollection class]], @"success block should be passed a BoxCollection");
+    };
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:successBlock failure:nil];
+    
+    operation.success(nil, nil, nil);
+}
+
+- (void)testThatUserInfosSetsFailureBlockOnTheOperation
+{
+    __block BOOL blockCalled = NO;
+    BoxAPIJSONFailureBlock failureBlock = ^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSDictionary *JSONDictionary)
+    {
+        blockCalled = YES;
+    };
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:nil failure:failureBlock];
+    
+    operation.failure(nil, nil, nil, nil);
+    
+    STAssertTrue(blockCalled, @"Failure block should be called when the operation's failure block is called");
+}
+
+- (void)testThatUserInfosEnqueuesOperationInQueueManager
+{
+    id queueManagerMock = [BoxWeakOCMockProxy mockForClass:[BoxSerialAPIQueueManager class]];
+    [[queueManagerMock expect] enqueueOperation:OCMOCK_ANY];
+    usersManager.queueManager = queueManagerMock;
+    
+    __unused BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:nil failure:nil];
+    [queueManagerMock verify];
+}
+
+- (void)testThatUserInfosPassesOAuth2SessionToOperation
+{
+    BoxAPIJSONOperation *operation = [usersManager userInfos:nil success:nil failure:nil];
+    STAssertEquals(OAuth2Session, operation.OAuth2Session, @"operation should have the same OAuth2Session as the users manager");
+}
+
+
 #pragma mark - Create User Tests
 
 - (void)testThatCreateUserReturnsOperationWithHTTPPOSTMethod

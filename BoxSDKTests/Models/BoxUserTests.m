@@ -25,9 +25,9 @@
         BoxAPIObjectKeyModifiedAt : @"2009-03-05T01:02:03Z", // 1236214923
         BoxAPIObjectKeyRole : @"admin",
         BoxAPIObjectKeyLanguage : @"en",
-        BoxAPIObjectKeySpaceAmount : @"10737418240", // 10 GB
-        BoxAPIObjectKeySpaceUsed : @"5368709120", // 5 GB
-        BoxAPIObjectKeyMaxUploadSize: @"1073741824", // 1 GB
+        BoxAPIObjectKeySpaceAmount : @10737418240, // 10 GB
+        BoxAPIObjectKeySpaceUsed : @5368709120, // 5 GB
+        BoxAPIObjectKeyMaxUploadSize: @1073741824, // 1 GB
         BoxAPIObjectKeyTrackingCodes: @{
             @"never" : @"gonna",
             @"give" : @"you",
@@ -115,22 +115,52 @@
     STAssertNil(miniUser.role, @"expected role should be nil");
 }
 
-- (void)testThatStatusIsReturnedFromFullFormat
+- (void)testThatLanguageIsReturnedFromFullFormat
 {
-    STAssertEqualObjects(@"active", user.status, @"expected status did not match actual");
+    STAssertEqualObjects(@"en", user.language, @"expected language did not match actual");
 }
 
-- (void)testThatStatusIsReturnedAsNilIfUnsetFromMiniFormat
+- (void)testThatLanguageIsReturnedAsNilIfUnsetFromMiniFormat
 {
-    STAssertNil(miniUser.status, @"expected status should be nil");
+    STAssertNil(miniUser.language, @"expected role should be nil");
+}
+
+- (void)testThatSpaceAmountIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@10737418240, user.spaceAmount, @"expected space_amount did not match actual");
+}
+
+- (void)testThatSpaceAmountIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.spaceAmount, @"expected space_amount should be nil");
+}
+
+- (void)testThatSpaceUsedIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@5368709120, user.spaceUsed, @"expected space_used did not match actual");
+}
+
+- (void)testThatSpaceUsedIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.spaceUsed, @"expected space_used should be nil");
+}
+
+- (void)testThatMaxUploadSizeIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@1073741824, user.maxUploadSize, @"expected max_upload_size did not match actual");
+}
+
+- (void)testThatMaxUploadSizeIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.maxUploadSize, @"expected max_upload_size should be nil");
 }
 
 - (void)testThatTrackingCodesIsReturnedFromFullFormat
 {
     NSDictionary *expectedTrackingCodes = @{
-        @"never" : @"gonna",
-        @"give" : @"you",
-    };
+                                            @"never" : @"gonna",
+                                            @"give" : @"you",
+                                            };
     STAssertEqualObjects(expectedTrackingCodes, user.trackingCodes, @"expected tracking_codes did not match actual");
 }
 
@@ -157,6 +187,77 @@
 - (void)testThatIsSyncEnabledIsSetAsNilIfUnsetFromMiniFormat
 {
     STAssertNil(miniUser.isSyncEnabled, @"expected is_sync_enabled should be nil");
+}
+
+- (void)testThatStatusIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@"active", user.status, @"expected status did not match actual");
+}
+
+- (void)testThatStatusIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.status, @"expected status should be nil");
+}
+
+- (void)testThatJobTitleIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@"Singer", user.jobTitle, @"expected job_title did not match actual");
+}
+
+- (void)testThatJobTitleIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.jobTitle, @"expected job_title should be nil");
+}
+
+- (void)testThatPhoneIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@"1234567890", user.phone, @"expected phone did not match actual");
+}
+
+- (void)testThatPhoneIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.phone, @"expected phone should be nil");
+}
+
+- (void)testThatAddressIsReturnedFromFullFormat
+{
+    STAssertEqualObjects(@"Never Gonna Let You Down Blvd", user.address, @"expected address did not match actual");
+}
+
+- (void)testThatAddressIsReturnedAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.address, @"expected address should be nil");
+}
+
+- (void)testThatIsExemptFromDeviceLimitsIsParsedCorrectlyIntoABooleanFromFullFormat
+{
+    STAssertEquals(@YES, user.isExemptFromDeviceLimits, @"expected is_exempt_from_device_limits should be set to True");
+}
+
+- (void)testThatIsExemptFromDeviceLimitsIsSetAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.isExemptFromDeviceLimits, @"expected is_exempt_from_device_limits should be nil");
+}
+
+- (void)testThatIsExemptFromLoginVerificationIsParsedCorrectlyIntoABooleanFromFullFormat
+{
+    STAssertEquals(@NO, user.isExemptFromLoginVerification, @"expected is_exempt_from_login_verification should be set to False");
+}
+
+- (void)testThatIsExemptFromLoginVerificationIsSetAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.isExemptFromLoginVerification, @"expected is_exempt_from_login_verification should be nil");
+}
+
+- (void)testThatAvatarURLIsParsedCorrectlyIntoAURLFromFullFormat
+{
+    NSURL *expectedAvatarURL = [NSURL URLWithString:@"https://www.box.com/avatar.jpg"];
+    STAssertEqualObjects(expectedAvatarURL, user.avatarURL, @"expected avatar_url should be set to False");
+}
+
+- (void)testThatAvatarURLIsSetAsNilIfUnsetFromMiniFormat
+{
+    STAssertNil(miniUser.avatarURL, @"expected avatar_url should be nil");
 }
 
 @end

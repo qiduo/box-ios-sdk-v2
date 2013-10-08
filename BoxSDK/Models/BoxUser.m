@@ -56,6 +56,14 @@
                                        nullAllowed:NO];
 }
 
+- (NSString *)language
+{
+    return [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyLanguage
+                                                     inDictionary:self.rawResponseJSON
+                                                  hasExpectedType:[NSString class]
+                                                      nullAllowed:NO];
+}
+
 - (NSNumber *)spaceAmount
 {
     NSNumber *spaceAmount = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeySpaceAmount
@@ -161,14 +169,20 @@
                                        nullAllowed:NO];
 }
 
-- (NSURL *)avatarUrl
+- (NSURL *)avatarURL
 {
-    NSString *avatarUrl = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyStatus
+    NSString *avatarURLStr = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyAvatarURL
                                                      inDictionary:self.rawResponseJSON
                                                   hasExpectedType:[NSString class]
                                                       nullAllowed:NO];
+    NSURL *avatarURL = nil;
     
-    return [NSURL URLWithString:avatarUrl];
+    if (avatarURLStr != nil)
+    {
+        avatarURL = [NSURL URLWithString:avatarURLStr];
+    }
+    
+    return avatarURL;
 }
 
 - (NSNumber *)isExemptFromDeviceLimits
