@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31724773183CAB9A00D074AB /* daylight-bg-btn-navbar-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31724771183CAB9A00D074AB /* daylight-bg-btn-navbar-highlighted@2x.png */; };
+		31724774183CAB9A00D074AB /* daylight-bg-btn-navbar-normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31724772183CAB9A00D074AB /* daylight-bg-btn-navbar-normal@2x.png */; };
+		31724777183CABB400D074AB /* daylight-btn-back-arrow-highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31724775183CABB400D074AB /* daylight-btn-back-arrow-highlighted@2x.png */; };
+		31724778183CABB400D074AB /* daylight-btn-back-arrow-normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 31724776183CABB400D074AB /* daylight-btn-back-arrow-normal@2x.png */; };
 		C5152CFE17541B66007A5C0A /* BoxFolderPickerHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = C5152CF817541B66007A5C0A /* BoxFolderPickerHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5152CFF17541B66007A5C0A /* BoxFolderPickerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C5152CF917541B66007A5C0A /* BoxFolderPickerHelper.m */; };
 		C5152D0017541B66007A5C0A /* BoxFolderPickerTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C5152CFA17541B66007A5C0A /* BoxFolderPickerTableViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -217,6 +221,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		31724771183CAB9A00D074AB /* daylight-bg-btn-navbar-highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daylight-bg-btn-navbar-highlighted@2x.png"; path = "../daylight-bg-btn-navbar-highlighted@2x.png"; sourceTree = "<group>"; };
+		31724772183CAB9A00D074AB /* daylight-bg-btn-navbar-normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daylight-bg-btn-navbar-normal@2x.png"; path = "../daylight-bg-btn-navbar-normal@2x.png"; sourceTree = "<group>"; };
+		31724775183CABB400D074AB /* daylight-btn-back-arrow-highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daylight-btn-back-arrow-highlighted@2x.png"; path = "../daylight-btn-back-arrow-highlighted@2x.png"; sourceTree = "<group>"; };
+		31724776183CABB400D074AB /* daylight-btn-back-arrow-normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daylight-btn-back-arrow-normal@2x.png"; path = "../daylight-btn-back-arrow-normal@2x.png"; sourceTree = "<group>"; };
 		C5152CF817541B66007A5C0A /* BoxFolderPickerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxFolderPickerHelper.h; sourceTree = "<group>"; };
 		C5152CF917541B66007A5C0A /* BoxFolderPickerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxFolderPickerHelper.m; sourceTree = "<group>"; };
 		C5152CFA17541B66007A5C0A /* BoxFolderPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxFolderPickerTableViewController.h; sourceTree = "<group>"; };
@@ -512,6 +520,10 @@
 		E4081D9A1758732800F6D6AA /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				31724771183CAB9A00D074AB /* daylight-bg-btn-navbar-highlighted@2x.png */,
+				31724772183CAB9A00D074AB /* daylight-bg-btn-navbar-normal@2x.png */,
+				31724775183CABB400D074AB /* daylight-btn-back-arrow-highlighted@2x.png */,
+				31724776183CABB400D074AB /* daylight-btn-back-arrow-normal@2x.png */,
 				E4081D9B1758732800F6D6AA /* action-normal.png */,
 				E4081D9C1758732800F6D6AA /* action-normal@2x.png */,
 				E4081D9D1758732800F6D6AA /* action-tap.png */,
@@ -1043,6 +1055,7 @@
 				E4081DE41758732800F6D6AA /* back-normal.png in Resources */,
 				E4081DE51758732800F6D6AA /* back-normal@2x.png in Resources */,
 				E4081DE61758732800F6D6AA /* back-tap.png in Resources */,
+				31724778183CABB400D074AB /* daylight-btn-back-arrow-normal@2x.png in Resources */,
 				E4081DE71758732800F6D6AA /* back-tap@2x.png in Resources */,
 				E4081DE81758732800F6D6AA /* footer.png in Resources */,
 				E4081DE91758732800F6D6AA /* footer@2x.png in Resources */,
@@ -1053,6 +1066,7 @@
 				E4081DEE1758732800F6D6AA /* standard-normal.png in Resources */,
 				E4081DEF1758732800F6D6AA /* standard-normal@2x.png in Resources */,
 				E4081DF01758732800F6D6AA /* standard-tap.png in Resources */,
+				31724773183CAB9A00D074AB /* daylight-bg-btn-navbar-highlighted@2x.png in Resources */,
 				E4081DF11758732800F6D6AA /* standard-tap@2x.png in Resources */,
 				E4081DF21758732800F6D6AA /* avi.png in Resources */,
 				E4081DF31758732800F6D6AA /* avi@2x.png in Resources */,
@@ -1060,6 +1074,7 @@
 				E4081DF51758732800F6D6AA /* csv@2x.png in Resources */,
 				E4081DF61758732800F6D6AA /* doc.png in Resources */,
 				E4081DF71758732800F6D6AA /* doc@2x.png in Resources */,
+				31724777183CABB400D074AB /* daylight-btn-back-arrow-highlighted@2x.png in Resources */,
 				E4081DF81758732800F6D6AA /* flv.png in Resources */,
 				E4081DF91758732800F6D6AA /* flv@2x.png in Resources */,
 				E4081DFA1758732800F6D6AA /* folder.png in Resources */,
@@ -1067,6 +1082,7 @@
 				E4081DFC1758732800F6D6AA /* gdoc.png in Resources */,
 				E4081DFD1758732800F6D6AA /* gdoc@2x.png in Resources */,
 				E4081DFE1758732800F6D6AA /* generic.png in Resources */,
+				31724774183CAB9A00D074AB /* daylight-bg-btn-navbar-normal@2x.png in Resources */,
 				E4081DFF1758732800F6D6AA /* generic@2x.png in Resources */,
 				E4081E001758732800F6D6AA /* gif.png in Resources */,
 				E4081E011758732800F6D6AA /* gif@2x.png in Resources */,

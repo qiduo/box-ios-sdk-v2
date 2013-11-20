@@ -56,9 +56,19 @@
 		_connectionData = [[NSMutableData alloc] init];
 		_connectionIsTrusted = NO;
 		_hasLoadedLoginPage = NO;
-
-		[self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)]];
-
+        
+        self.title = @"Box";
+        
+        UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 58.0f, 32.0f)];
+        [backButton setBackgroundImage:[UIImage imageNamed:@"daylight-bg-btn-navbar-normal"] forState:UIControlStateNormal];
+        [backButton setBackgroundImage:[UIImage imageNamed:@"daylight-bg-btn-navbar-highlighted"] forState:UIControlStateHighlighted];
+        [backButton setImage:[UIImage imageNamed:@"daylight-btn-back-arrow-normal"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"daylight-btn-back-arrow-highlighted"] forState:UIControlStateHighlighted];
+        
+        [backButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:backButtonItem, nil];
+        
 		NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 		_preexistingCookies = [[cookieStorage cookies] copy];
 		_preexistingCookiePolicy = [cookieStorage cookieAcceptPolicy];
