@@ -60,10 +60,8 @@
         self.title = @"Box";
         
         UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 58.0f, 32.0f)];
-        [backButton setBackgroundImage:[UIImage imageNamed:@"daylight-bg-btn-navbar-normal"] forState:UIControlStateNormal];
-        [backButton setBackgroundImage:[UIImage imageNamed:@"daylight-bg-btn-navbar-highlighted"] forState:UIControlStateHighlighted];
-        [backButton setImage:[UIImage imageNamed:@"daylight-btn-back-arrow-normal"] forState:UIControlStateNormal];
-        [backButton setImage:[UIImage imageNamed:@"daylight-btn-back-arrow-highlighted"] forState:UIControlStateHighlighted];
+        [backButton setImage:[UIImage imageNamed:@"daylight-btn-left-arrow-normal"] forState:UIControlStateNormal];
+        [backButton setImage:[UIImage imageNamed:@"daylight-btn-left-arrow-highlighted"] forState:UIControlStateHighlighted];
         
         [backButton addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
