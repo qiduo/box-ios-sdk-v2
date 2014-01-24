@@ -44,9 +44,17 @@
     }
 
     NSDate *returnDate = nil;
-    returnDate = [dateFormatter dateFromString:timestamp];
+    if (timestamp != nil)
+    {
+        returnDate = [dateFormatter dateFromString:timestamp];
+    }
 
     return returnDate;
+}
+
+- (NSComparisonResult)compare:(BoxModel *)model usingComparator:(NSComparator)comparator
+{
+    return comparator(self, model);
 }
 
 - (NSString *)type
@@ -70,6 +78,5 @@
     }
     return (NSString *)ID;
 }
-
 
 @end

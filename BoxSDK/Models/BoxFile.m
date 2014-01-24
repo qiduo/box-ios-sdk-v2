@@ -15,17 +15,23 @@
 
 - (NSString *)SHA1
 {
-    id SHA1 = [self.rawResponseJSON objectForKey:BoxAPIObjectKeySHA1];
-    if (SHA1 == nil)
+    return [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeySHA1
+                                      inDictionary:self.rawResponseJSON
+                                   hasExpectedType:[NSString class]
+                                       nullAllowed:NO];
+}
+
+- (NSNumber *)commentCount
+{
+    NSNumber *commentCount = [NSJSONSerialization ensureObjectForKey:BoxAPIObjectKeyCommentCount
+                                                        inDictionary:self.rawResponseJSON
+                                                     hasExpectedType:[NSNumber class]
+                                                         nullAllowed:NO];
+    if (commentCount != nil)
     {
-        return nil;
+        commentCount = [NSNumber numberWithInteger:[commentCount intValue]];
     }
-    else if (![SHA1 isKindOfClass:[NSString class]])
-    {
-        BOXAssertFail(@"sha1 should be a string");
-        return nil;
-    }
-    return (NSString *)SHA1;
+    return commentCount;
 }
 
 @end

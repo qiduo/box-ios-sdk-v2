@@ -1,12 +1,10 @@
 //
-//  BoxAPIOAuth2Operation.h
+//  BoxAPIOAuth2ToJSONOperation.h
 //  BoxSDK
 //
 //  Created on 2/27/13.
 //  Copyright (c) 2013 Box. All rights reserved.
 //
-
-#import <UIKit/UIKit.h>
 
 #import "BoxAPIOperation.h"
 

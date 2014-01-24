@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BoxLog.h"
+#import "NSJSONSerialization+BoxAdditions.h"
+
 /**
  * BoxModel is the base class for all objects that may be returned by the Box API.
  * It exposes two fields that every object has: a `type` and `modelID`.
@@ -77,7 +80,7 @@
  */
 - (id)initWithResponseJSON:(NSDictionary *)responseJSON mini:(BOOL)mini;
 
-/** Decode to native types */
+/** @name Decode to native types */
 
 /**
  * Convert an ISO 8601 date string to a native `NSDate`. ISO 8601 strings are
@@ -87,5 +90,17 @@
  * @return A decoded date.
  */
 - (NSDate *)dateWithISO8601String:(NSString *)timestamp;
+
+/** @name Comparison */
+
+/**
+ * Compare this model to another model object using the supplied comparator.
+ * Several comparators are provided in BoxModelComparators
+ *
+ * @param model Model object to compare to this one.
+ * @param comparator Comparator to use for the comparison.
+ * @return NSComparisonResult
+ */
+- (NSComparisonResult)compare:(BoxModel *)model usingComparator:(NSComparator)comparator;
 
 @end

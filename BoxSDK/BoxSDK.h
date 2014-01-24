@@ -5,58 +5,67 @@
 //  Created on 2/19/13.
 //  Copyright (c) 2013 Box. All rights reserved.
 //
+//  NOTE: this file is a mirror of BoxCocoaSDK/BoxCocoaSDK.h. Changes made here should be reflected there.
+//
 
 #import <Foundation/Foundation.h>
 
 // constants and logging
-#import "BoxSDKConstants.h"
-#import "BoxLog.h"
-#import "BoxSDKErrors.h"
+#import <BoxSDK/BoxSDKConstants.h>
+#import <BoxSDK/BoxLog.h>
+#import <BoxSDK/BoxSDKErrors.h>
 
 // OAuth2
-#import "BoxAuthorizationViewController.h"
-#import "BoxOAuth2Session.h"
-#import "BoxSerialOAuth2Session.h"
-#import "BoxParallelOAuth2Session.h"
+#import <BoxSDK/BoxAuthorizationViewController.h>
+#import <BoxSDK/BoxOAuth2Session.h>
+#import <BoxSDK/BoxSerialOAuth2Session.h>
+#import <BoxSDK/BoxParallelOAuth2Session.h>
 
 // API Operation queues
-#import "BoxAPIQueueManager.h"
-#import "BoxSerialAPIQueueManager.h"
-#import "BoxParallelAPIQueueManager.h"
+#import <BoxSDK/BoxAPIQueueManager.h>
+#import <BoxSDK/BoxSerialAPIQueueManager.h>
+#import <BoxSDK/BoxParallelAPIQueueManager.h>
 
 // API Operations
-#import "BoxAPIOperation.h"
-#import "BoxAPIOAuth2ToJSONOperation.h"
-#import "BoxAPIAuthenticatedOperation.h"
-#import "BoxAPIJSONOperation.h"
-#import "BoxAPIMultipartToJSONOperation.h"
-#import "BoxAPIDataOperation.h"
+#import <BoxSDK/BoxAPIOperation.h>
+#import <BoxSDK/BoxAPIOAuth2ToJSONOperation.h>
+#import <BoxSDK/BoxAPIAuthenticatedOperation.h>
+#import <BoxSDK/BoxAPIJSONOperation.h>
+#import <BoxSDK/BoxAPIMultipartToJSONOperation.h>
+#import <BoxSDK/BoxAPIDataOperation.h>
 
 // Request building
-#import "BoxAPIRequestBuilder.h"
-#import "BoxFilesRequestBuilder.h"
-#import "BoxFoldersRequestBuilder.h"
-#import "BoxSharedObjectBuilder.h"
+#import <BoxSDK/BoxAPIRequestBuilder.h>
+#import <BoxSDK/BoxFilesRequestBuilder.h>
+#import <BoxSDK/BoxFoldersRequestBuilder.h>
+#import <BoxSDK/BoxSharedObjectBuilder.h>
+#import <BoxSDK/BoxUsersRequestBuilder.h>
+#import <BoxSDK/BoxCommentsRequestBuilder.h>
 
 // API Resource Managers
-#import "BoxAPIResourceManager.h"
-#import "BoxFilesResourceManager.h"
-#import "BoxFoldersResourceManager.h"
+#import <BoxSDK/BoxAPIResourceManager.h>
+#import <BoxSDK/BoxFilesResourceManager.h>
+#import <BoxSDK/BoxFoldersResourceManager.h>
+#import <BoxSDK/BoxSearchResourceManager.h>
+#import <BoxSDK/BoxUsersResourceManager.h>
+#import <BoxSDK/BoxCommentsResourceManager.h>
 
 // API models
-#import "BoxModel.h"
-#import "BoxCollection.h"
-#import "BoxItem.h"
-#import "BoxFile.h"
-#import "BoxFolder.h"
-#import "BoxUser.h"
-#import "BoxWebLink.h"
+#import <BoxSDK/BoxModel.h>
+#import <BoxSDK/BoxModelComparators.h>
+#import <BoxSDK/BoxCollection.h>
+#import <BoxSDK/BoxItem.h>
+#import <BoxSDK/BoxFile.h>
+#import <BoxSDK/BoxFolder.h>
+#import <BoxSDK/BoxUser.h>
+#import <BoxSDK/BoxWebLink.h>
+#import <BoxSDK/BoxComment.h>
 
 // Folder Picker
-#import "BoxFolderPickerHelper.h"
-#import "BoxFolderPickerTableViewController.h"
-#import "BoxFolderPickerViewController.h"
-#import "BoxFolderPickerNavigationController.h"
+#import <BoxSDK/BoxFolderPickerHelper.h>
+#import <BoxSDK/BoxFolderPickerTableViewController.h>
+#import <BoxSDK/BoxFolderPickerViewController.h>
+#import <BoxSDK/BoxFolderPickerNavigationController.h>
 
 
 extern NSString *const BoxAPIBaseURL;
@@ -77,6 +86,19 @@ extern NSString *const BoxAPIBaseURL;
  *
  * This class may be instantiated directly. It is up to the caller to connect the BoxOAuth2Session and
  * BoxAPIQueueManager to the BoxAPIResourceManager instances in this case.
+ *
+ * Logging and Assertions
+ * ======================
+ * When compiling a `DEBUG` build of the SDK, logging and assertions are enabled.
+ *
+ * The Box SDK has fairly verbose logging in `DEBUG` builds that relays internal SDK state,
+ * particularly during network activity. These logs are always compiled out in Release builds
+ * and they can be disabled in `DEBUG` builds by defining the `BOX_DISABLE_DEBUG_LOGGING`
+ * macro when compiling the SDK. See `BoxLog.h`.
+ *
+ * Assertions are always enabled in `DEBUG` builds; in Release builds, assertions are compiled
+ * out. The Box SDK makes assertions about internal invariants, for example, when performing
+ * network operations or parsing model classes.
  *
  * @warning If you wish to support multiple BoxOAuth2Session instances (multi-account support),
  * the recommended approach is to instantiate multiple instances of BoxSDK. Each BoxSDK instance's
@@ -118,6 +140,24 @@ extern NSString *const BoxAPIBaseURL;
  */
 @property (nonatomic, readwrite, strong) BoxFoldersResourceManager *foldersManager;
 
+/**
+ * The searchManager grants the ability to search a user's Box account.
+ */
+@property (nonatomic, readwrite, strong) BoxSearchResourceManager *searchManager;
+
+/**
+ * The usersManager grants the ability to make API calls related to users on Box.
+ * These API calls include getting user information, getting the currently authorized
+ * user's information, and admin user management.
+ */
+@property (nonatomic, readwrite, strong) BoxUsersResourceManager *usersManager;
+
+/**
+ * The commentsManager grants the ability to make API calls related to comments on Box.
+ * These API calls include getting comment information, creating a comment, and modifying a comment
+ */
+@property (nonatomic, readwrite, strong) BoxCommentsResourceManager *commentsManager;
+
 #pragma mark - Globally accessible API singleton instance
 /** @name Shared SDK client */
 
@@ -125,11 +165,11 @@ extern NSString *const BoxAPIBaseURL;
  * Returns the BoxSDK's default SDK client
  *
  * This method is guaranteed to only instantiate one sharedSDK over the lifetime of an app.
- * 
+ *
  * This client must be configured with your client ID and client secret (see the
  * [Box OAuth2 documentation](http://developers.box.com/oauth/)). One possibility is to
  * configure the SDK in your application's App Delegate like so:
- * 
+ *
  * <pre><code>// somewhere in your application delegate's - (BOOL)application:didFinishLaunchingWithOptions:
  * [BoxSDK sharedSDK].OAuth2Session.clientID = @"your_client_ID";
  * [BoxSDK sharedSDK].OAuth2Session.clientSecret = @"your_client_secret";</pre></code>
@@ -170,8 +210,8 @@ extern NSString *const BoxAPIBaseURL;
  *   this path. Not used if thumbnailsEnabled set to NO.
  * @return A BoxFolderPickerViewController.
  */
-- (BoxFolderPickerViewController *)folderPickerWithRootFolderID:(NSString *)rootFolderID 
-                                               thumbnailsEnabled:(BOOL)thumbnailsEnabled 
+- (BoxFolderPickerViewController *)folderPickerWithRootFolderID:(NSString *)rootFolderID
+                                               thumbnailsEnabled:(BOOL)thumbnailsEnabled
                                            cachedThumbnailsPath:(NSString *)cachedThumbnailsPath
                                            fileSelectionEnabled:(BOOL)fileSelectionEnabled;
 

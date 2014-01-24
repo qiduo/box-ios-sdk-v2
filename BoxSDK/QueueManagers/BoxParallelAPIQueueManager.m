@@ -8,6 +8,11 @@
 
 #import "BoxParallelAPIQueueManager.h"
 
+#import "BoxAPIDataOperation.h"
+#import "BoxAPIOAuth2ToJSONOperation.h"
+#import "BoxAPIMultipartToJSONOperation.h"
+#import "BoxLog.h"
+
 @interface BoxParallelAPIQueueManager ()
 
 @property (atomic, readwrite, assign) BOOL currentAccessTokenHasExpired;
@@ -73,16 +78,18 @@
                 // requests do not depend on each other
                 if (![enqueuedOperation isKindOfClass:[BoxAPIOAuth2ToJSONOperation class]])
                 {
-                    [enqueuedOperation addDependency:operation];
+                    [self addDependency:operation toOperation:enqueuedOperation];
                 }
             }
             for (NSOperation *enqueuedOperation in self.downloadsQueue.operations)
             {
-                [enqueuedOperation addDependency:operation];
+                [self addDependency:operation toOperation:enqueuedOperation];
+
             }
             for (NSOperation *enqueuedOperation in self.uploadsQueue.operations)
             {
-                [enqueuedOperation addDependency:operation];
+                [self addDependency:operation toOperation:enqueuedOperation];
+
             }
         }
         else
@@ -93,7 +100,7 @@
             // successfully.
             for (NSOperation *pendingOAuth2Operation in self.enqueuedOAuth2Operations)
             {
-                [operation addDependency:pendingOAuth2Operation];
+                [self addDependency:pendingOAuth2Operation toOperation:operation];
             }
         }
 

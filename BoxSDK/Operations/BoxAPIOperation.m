@@ -230,20 +230,27 @@ static BOOL BoxOperationStateTransitionIsValid(BoxAPIOperationState fromState, B
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         boxAPIOperationNewtorkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(globalAPIOperationNetworkThreadEntryPoint:) object:nil];
+        boxAPIOperationNewtorkRequestThread.name = @"Box API Operation Thread";
         [boxAPIOperationNewtorkRequestThread start];
+        BOXLog(@"%@ started", boxAPIOperationNewtorkRequestThread);
     });
     return boxAPIOperationNewtorkRequestThread;
 }
 
 + (void)globalAPIOperationNetworkThreadEntryPoint:(id)sender
 {
-    [NSThread currentThread].name = @"Box API Operation Thread";
-    BOXLog(@"%@ started", [NSThread currentThread]);
-
     // Run this thread forever
     while (YES)
     {
-        [[NSRunLoop currentRunLoop] run];
+        // Create an autorelease pool around each iteration of the runloop
+        // API call completion blocks are run on this runloop which may
+        // create autoreleased objects.
+        //
+        // See Apple documentation on using autorelease pool blocks
+        // https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html#//apple_ref/doc/uid/20000047-CJBFBEDI
+        @autoreleasepool {
+            [[NSRunLoop currentRunLoop] run];
+        }
     }
 }
 
@@ -265,16 +272,30 @@ static BOOL BoxOperationStateTransitionIsValid(BoxAPIOperationState fromState, B
 
 - (void)start
 {
-    [self performSelector:@selector(executeOperation) onThread:[[self class] globalAPIOperationNetworkThread] withObject:nil waitUntilDone:NO];
+    [[BoxAPIOperation APIOperationGlobalLock] lock];
+
+    if ([self isReady])
+    {
+        // Set state = executing once we have the lock
+        // BoxAPIQueueManagers check to ensure that operations are not executing when
+        // they grab the lock and are adding dependencies.
+        self.state = BoxAPIOperationStateExecuting;
+
+        [self performSelector:@selector(executeOperation) onThread:[[self class] globalAPIOperationNetworkThread] withObject:nil waitUntilDone:NO];
+    }
+    else
+    {
+        BOXAssertFail(@"Operation was not ready but start was called");
+    }
+
+    [[BoxAPIOperation APIOperationGlobalLock] unlock];
 }
 
 - (void)executeOperation
 {
     BOXLog(@"BoxAPIOperation %@ was started", self);
-    if ([self isReady] && ![self isCancelled])
+    if (![self isCancelled])
     {
-        self.state = BoxAPIOperationStateExecuting;
-
         @synchronized(self.OAuth2Session)
         {
             [self prepareAPIRequest];
@@ -294,15 +315,10 @@ static BOOL BoxOperationStateTransitionIsValid(BoxAPIOperationState fromState, B
             [self finish];
         }
     }
-    else if ([self isReady] && [self isCancelled])
-    {
-        BOXLog(@"BoxAPIOperation %@ was cancelled -- short circuiting and not making API call", self);
-        self.state = BoxAPIOperationStateExecuting;
-        [self finish];
-    }
     else
     {
-        BOXAssertFail(@"Operation was not ready but start was called");
+        BOXLog(@"BoxAPIOperation %@ was cancelled -- short circuiting and not making API call", self);
+        [self finish];
     }
 }
 
@@ -414,6 +430,19 @@ static BOOL BoxOperationStateTransitionIsValid(BoxAPIOperationState fromState, B
     BOXLog(@"BoxAPIOperation %@ did finsh loading", self);
     [self processResponseData:self.responseData];
     [self finish];
+}
+
+#pragma mark - Lock
++ (NSRecursiveLock *)APIOperationGlobalLock
+{
+    static NSRecursiveLock *boxAPIOperationLock = nil;
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
+        boxAPIOperationLock = [[NSRecursiveLock alloc] init];
+        boxAPIOperationLock.name = @"Box API Operation Lock";
+    });
+
+    return boxAPIOperationLock;
 }
 
 @end
