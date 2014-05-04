@@ -59,7 +59,16 @@
         
         self.title = @"Box";
         
-        UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 58.0f, 32.0f)];
+        CGRect backButtonFrame;
+        
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending) {
+            backButtonFrame = CGRectMake(0.0f, 0.0f, 24.0f, 44.0f);
+        } else {
+            backButtonFrame = CGRectMake(0.0f, 0.0f, 42.0f, 44.0f);
+        }
+        
+        UIButton *backButton = [[UIButton alloc] initWithFrame:backButtonFrame];
+        
         [backButton setImage:[UIImage imageNamed:@"daylight-btn-left-arrow-normal"] forState:UIControlStateNormal];
         [backButton setImage:[UIImage imageNamed:@"daylight-btn-left-arrow-highlighted"] forState:UIControlStateHighlighted];
         
