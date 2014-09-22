@@ -1449,7 +1449,7 @@
 			name = BoxSDKTests;
 			productName = BoxSDKTests;
 			productReference = E470434C16D41DC500FED29A /* BoxSDKTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		F0E5E2E617A78AEF00153646 /* BoxCocoaSDK */ = {
 			isa = PBXNativeTarget;
@@ -1486,7 +1486,7 @@
 			name = BoxCocoaSDKTests;
 			productName = BoxCocoaSDKTests;
 			productReference = F0E5E2FD17A78AEF00153646 /* BoxCocoaSDKTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -1900,6 +1900,7 @@
 		E470435E16D41DC500FED29A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1934,6 +1935,7 @@
 		E470435F16D41DC500FED29A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
